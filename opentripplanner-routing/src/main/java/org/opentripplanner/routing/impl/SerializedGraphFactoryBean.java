@@ -19,20 +19,23 @@ import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 public class SerializedGraphFactoryBean extends AbstractFactoryBean<ContractionHierarchySet> {
 
-    private GraphBundle _graphBundle;
+	private GraphBundle _graphBundle;
 
-    public void setGraphBundle(GraphBundle graphBundle) {
-        _graphBundle = graphBundle;
-    }
+	public void setGraphBundle(GraphBundle graphBundle) {
+		_graphBundle = graphBundle;
+	}
 
-    @Override
-    public Class<?> getObjectType() {
-        return ContractionHierarchySet.class;
-    }
+	@Override
+	public Class<?> getObjectType() {
+		return ContractionHierarchySet.class;
+	}
 
-    @Override
-    protected ContractionHierarchySet createInstance() throws Exception {
-        return ContractionHierarchySerializationLibrary.readGraph(_graphBundle.getGraphPath());
-    }
+	@Override
+	protected ContractionHierarchySet createInstance() throws Exception {
+		if (_graphBundle.getResource() != null) {
+			return ContractionHierarchySerializationLibrary.readGraph(_graphBundle.getGraphResource());
+		}
+		return ContractionHierarchySerializationLibrary.readGraph(_graphBundle.getGraphPath());
+	}
 
 }

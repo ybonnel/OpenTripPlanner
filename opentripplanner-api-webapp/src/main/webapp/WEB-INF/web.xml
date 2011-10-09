@@ -36,10 +36,6 @@
 	    <!-- switch the order of these two init-param elements for Tomcat > 6.0 -->
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.sun.jersey.samples.jsonfromjaxb</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>org.opentripplanner</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

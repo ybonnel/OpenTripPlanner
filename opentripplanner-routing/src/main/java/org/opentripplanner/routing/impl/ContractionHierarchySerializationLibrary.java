@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -49,8 +50,11 @@ public class ContractionHierarchySerializationLibrary {
     }
 
     public static ContractionHierarchySet readGraph(File graphPath) throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(new BufferedInputStream (new FileInputStream(graphPath)));
-        _log.info("Reading graph " + graphPath.getAbsolutePath() + " ...");
+		return readGraph(new FileInputStream(graphPath));
+	}
+
+	public static ContractionHierarchySet readGraph(InputStream inputStream) throws IOException, ClassNotFoundException {
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(inputStream));
         try {
         	ContractionHierarchySet hierarchy = (ContractionHierarchySet) in.readObject();
     		_log.info("Graph read");

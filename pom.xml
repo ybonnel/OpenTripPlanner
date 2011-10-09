@@ -22,7 +22,7 @@
     <module>opentripplanner-geocoder</module>
     <module>opentripplanner-graph-builder</module>
     <module>opentripplanner-gui</module>
-    <module>opentripplanner-integration</module>
+    <!-- <module>opentripplanner-integration</module> -->
     <module>opentripplanner-routing</module>
     <module>opentripplanner-updater</module>
     <module>opentripplanner-utils</module>
