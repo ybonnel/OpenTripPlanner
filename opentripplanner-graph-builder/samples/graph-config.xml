@@ -55,7 +55,7 @@
 
         <property name="modes">
             <list>
-                <bean class="org.opentripplanner.routing.contraction.ModeAndOptimize">
+                <bean class="org.opentripplanner.routing.core.TraverseOptions">
                     <constructor-arg>
                         <value>WALK</value>
                     </constructor-arg>
