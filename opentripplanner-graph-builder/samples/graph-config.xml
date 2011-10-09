@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <bean id="graphBundle" class="org.opentripplanner.model.GraphBundle">
-        <property name="path" value="/Users/ybonnel/dev/data/opentripplanner/Rennes/graph-bundle" />
+        <property name="path" value="/Users/ybonnel/dev/data/opentripplanner/Bordeaux/graph-bundle" />
     </bean>
 
     <bean id="gtfsBuilder" class="org.opentripplanner.graph_builder.impl.GtfsGraphBuilderImpl">
@@ -14,7 +14,7 @@
                 <property name="bundles">
                     <list>
                         <bean class="org.opentripplanner.graph_builder.model.GtfsBundle">
-                            <property name="path" value="/Users/ybonnel/dev/data/opentripplanner/Rennes/GTFS/GTFS.zip" />
+                            <property name="path" value="/Users/ybonnel/dev/data/opentripplanner/Bordeaux/GTFS/GTFS.zip" />
 			    <property name="defaultBikesAllowed" value="true" />
                         </bean>
                     </list>
@@ -29,7 +29,7 @@
                 <property name="regionsSource">
                     <bean class="org.opentripplanner.graph_builder.impl.TransitStopsRegionsSourceImpl" />
                 </property>
-                <property name="cacheDirectory" value="/Users/ybonnel/dev/data/opentripplanner/Rennes/osm" />
+                <property name="cacheDirectory" value="/Users/ybonnel/dev/data/opentripplanner/Bordeaux/osm" />
             </bean>
         </property>
 	<property name="defaultWayPropertySetSource">
