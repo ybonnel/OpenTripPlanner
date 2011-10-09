@@ -124,7 +124,7 @@ otp.core.MapStatic = {
                 _params = { routerId : this.routerId };
                 OpenLayers.Request.GET({
                     // TODO: store the base /ws URL someplace else
-                    url: '/opentripplanner-api-webapp/ws/metadata',
+                	url: '/bordeaux-api-webapp/ws/metadata',
                     params: _params,
                     // TODO: switch other ajax requests from XML to JSON?
                     headers: {Accept: 'application/json'},
@@ -274,7 +274,7 @@ otp.core.MapStatic = {
         }
         OpenLayers.Request.GET({
             // TODO: store the base /ws URL someplace else
-            url : '/opentripplanner-api-webapp/ws/metadata',
+            url : '/bordeaux-api-webapp/ws/metadata',
             // TODO: switch other ajax requests from XML to JSON?
             headers: {Accept: 'application/json'},
             success : function(xhr) 

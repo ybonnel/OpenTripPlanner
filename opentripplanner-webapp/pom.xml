@@ -16,7 +16,7 @@
     </dependencies>
 
     <build>
-        <finalName>opentripplanner-webapp</finalName>
+        <finalName>bordeaux-webapp</finalName>
         <plugins>
             <plugin>
                 <groupId>ro.isdc.wro4j</groupId>

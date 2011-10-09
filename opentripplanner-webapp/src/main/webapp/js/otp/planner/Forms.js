@@ -38,7 +38,7 @@ otp.planner.StaticForms = {
     planner               : null,
     contextMenu           : null,
     poi                   : null,
-    url                   : '/opentripplanner-api-webapp/ws/plan',
+    url                   : '/bordeaux-api-webapp/ws/plan',
     showWheelchairForm    : true,
     useOptionDependencies : false, // form options context dependent based on mode and optimize flag 
     fromToOverride        : null,  // over-ride me to get rid of From / To from with something else
