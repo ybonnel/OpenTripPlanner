@@ -6,7 +6,7 @@
 	<import resource="classpath:org/opentripplanner/api/application-context.xml" />
 
 	<bean id="graphBundle" class="org.opentripplanner.model.GraphBundle">
-		<property name="path" value="/var/otp/graphs/" />
+		<property name="resource" value="/Graph.obj"></property>
 	</bean>
 	
 </beans>

@@ -14,6 +14,7 @@
 package org.opentripplanner.model;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 
 /** 
@@ -25,6 +26,8 @@ public final class GraphBundle implements Serializable {
     
     private File _path;
     
+	private String _resource;
+
     public GraphBundle() {
         
     }
@@ -41,7 +44,19 @@ public final class GraphBundle implements Serializable {
         return _path;
     }
     
+	public void setResource(String resource) {
+		_resource = resource;
+	}
+
+	public String getResource() {
+		return _resource;
+	}
+
     public File getGraphPath() {
         return new File(_path,"Graph.obj");
     }
+
+	public InputStream getGraphResource() {
+		return GraphBundle.class.getResourceAsStream(_resource);
+	}
 }

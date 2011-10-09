@@ -136,6 +136,17 @@ public class GraphServiceImpl implements GraphService {
 
     File path = null;
 
+		if (_bundle.getResource() != null) {
+			try {
+				ContractionHierarchySet chs = ContractionHierarchySerializationLibrary.readGraph(_bundle
+						.getGraphResource());
+				setContractionHierarchySet(chs);
+			} catch (Exception ex) {
+				throw new IllegalStateException("error loading graph from " + path, ex);
+			}
+			return;
+		}
+
     if (_bundle != null)
       path = _bundle.getGraphPath();
 

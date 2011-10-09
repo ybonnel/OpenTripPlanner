@@ -29,18 +29,19 @@ import com.vividsolutions.jts.geom.Envelope;
 public class OSMDownloader {
     private static final Logger _log = LoggerFactory.getLogger(OSMDownloader.class);
 
-    private double _latYStep = 0.04;
+	private double _latYStep = 0.01;
 
-    private double _lonXStep = 0.04;
+    private double _lonXStep = 0.01;
 
-    private double _overlap = 0.001;
+    private double _overlap = 0.0005;
 
     private File _cacheDirectory;
 
-    private int _updateIfOlderThanDuration = 0;
+	private Long _updateIfOlderThanDuration = Long.MAX_VALUE;
 
     //if this fails, try http://osmxapi.hypercube.telascience.org/api/0.6/
-    private String apiBaseUrl = "http://api.openstreetmap.org/api/0.6/";
+	// http://api.openstreetmap.org/api/0.6/
+	private String apiBaseUrl = "http://api.openstreetmap.org/api/0.6/";
 
     public void setLatStep(double latStep) {
         _latYStep = latStep;
@@ -59,7 +60,7 @@ public class OSMDownloader {
         _cacheDirectory = cacheDirectory;
     }
 
-    public void setUpdateIfOlderThanDuration(int durationIndDays) {
+	public void setUpdateIfOlderThanDuration(long durationIndDays) {
         _updateIfOlderThanDuration = durationIndDays;
     }
 
