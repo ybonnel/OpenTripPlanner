@@ -20,8 +20,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import org.opentripplanner.routing.core.Fare;
-
 /**
  * An Itinerary is one complete way of getting from the start location to the end location.
  */
@@ -79,7 +77,7 @@ public class Itinerary {
     /**
      * The cost of this trip
      */
-    public Fare fare = new Fare();
+	// public Fare fare = new Fare();
 
     /**
      * A list of Legs. Each Leg is either a walking (cycling, car) portion of the trip, or a transit

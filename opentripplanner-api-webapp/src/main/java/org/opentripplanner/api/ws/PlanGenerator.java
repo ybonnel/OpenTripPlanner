@@ -42,11 +42,11 @@ import org.opentripplanner.routing.core.TraverseOptions;
 import org.opentripplanner.routing.core.Vertex;
 import org.opentripplanner.routing.edgetype.Dwell;
 import org.opentripplanner.routing.edgetype.EdgeWithElevation;
+import org.opentripplanner.routing.edgetype.FreeEdge;
 import org.opentripplanner.routing.edgetype.Hop;
 import org.opentripplanner.routing.edgetype.PatternDwell;
 import org.opentripplanner.routing.edgetype.PatternHop;
 import org.opentripplanner.routing.edgetype.PatternInterlineDwell;
-import org.opentripplanner.routing.edgetype.FreeEdge;
 import org.opentripplanner.routing.edgetype.PlainStreetEdge;
 import org.opentripplanner.routing.edgetype.TinyTurnEdge;
 import org.opentripplanner.routing.error.PathNotFoundException;
@@ -440,9 +440,10 @@ public class PlanGenerator {
         itinerary.startTime = new Date(startState.getTimeInMillis());
         itinerary.endTime = new Date(endState.getTimeInMillis());
         itinerary.duration = endState.getTimeInMillis() - startState.getTimeInMillis();
-        if (fareService != null) {
-            itinerary.fare = fareService.getCost(path);
-        }
+		/*
+		 * if (fareService != null) { itinerary.fare =
+		 * fareService.getCost(path); }
+		 */
         itinerary.transfers = -1;
         return itinerary;
     }
