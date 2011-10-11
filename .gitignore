@@ -23,3 +23,4 @@ opentripplanner-webapp/src/main/webapp/js/otp-min.js
 .classpath
 .project
 .settings
+opentripplanner-api-webapp/src/main/resources/Graph.obj
