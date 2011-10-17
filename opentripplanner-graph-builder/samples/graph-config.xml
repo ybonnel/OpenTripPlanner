@@ -53,7 +53,7 @@
             </list>
         </property>
 
-        <property name="modes">
+        <!--<property name="modes">
             <list>
                 <bean class="org.opentripplanner.routing.core.TraverseOptions">
                     <constructor-arg>
@@ -65,6 +65,6 @@
                 </bean>
             </list>
         </property>
-        <property name="contractionFactor" value="0.999"/>
+        <property name="contractionFactor" value="0.999"/>-->
     </bean>
 </beans>
