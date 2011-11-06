@@ -13,10 +13,14 @@
 
 package org.opentripplanner.graph_builder.services;
 
+import java.util.Set;
+
 import org.opentripplanner.routing.core.Edge;
+import org.opentripplanner.routing.core.TraverseMode;
 
 public class TurnRestriction {
 	public TurnRestrictionType type;
 	public Edge from;
 	public Edge to;
+	public Set<TraverseMode> modes;
 }

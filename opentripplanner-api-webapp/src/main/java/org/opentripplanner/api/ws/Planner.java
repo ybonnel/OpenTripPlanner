@@ -47,6 +47,7 @@ public class Planner {
     private static final Logger LOGGER = Logger.getLogger(Planner.class.getCanonicalName());
 
     private static final int MAX_ITINERARIES = 3;
+    private static final int MAX_TRANSFERS = 4;
 
     private PathServiceFactory pathServiceFactory;
 
@@ -133,6 +134,7 @@ public class Planner {
             @QueryParam(RequestInf.FROM) String fromPlace,
             @QueryParam(RequestInf.TO) String toPlace,
             @QueryParam(RequestInf.INTERMEDIATE_PLACES) List<String> intermediatePlaces,
+            @DefaultValue("false") @QueryParam(RequestInf.INTERMEDAITE_PLACES_ORDERED) Boolean intermediatePlacesOrdered,
             @QueryParam(RequestInf.DATE) String date,
             @QueryParam(RequestInf.TIME) String time,
             @DefaultValue("") @QueryParam(RequestInf.ROUTER_ID) String routerId,
@@ -151,7 +153,8 @@ public class Planner {
             @DefaultValue("") @QueryParam(RequestInf.PREFERRED_ROUTES) String preferredRoutes,
             @DefaultValue("") @QueryParam(RequestInf.UNPREFERRED_ROUTES) String unpreferredRoutes,
             @DefaultValue("") @QueryParam(RequestInf.BANNED_ROUTES) String bannedRoutes,
-            @DefaultValue("0") @QueryParam(RequestInf.TRANSFER_PENALTY) Integer transferPenalty)
+            @DefaultValue("0") @QueryParam(RequestInf.TRANSFER_PENALTY) Integer transferPenalty,
+            @DefaultValue("2") @QueryParam(RequestInf.MAX_TRANSFERS) Integer maxTransfers)
             throws JSONException {
 
         // TODO: add Lang / Locale parameter, and thus get localized content (Messages & more...)
@@ -214,6 +217,9 @@ public class Planner {
                 && !intermediatePlaces.get(0).equals("")) {
             request.setIntermediatePlaces(intermediatePlaces);
         }
+        if (intermediatePlacesOrdered != null) {
+            request.setIntermediatePlacesOrdered(intermediatePlacesOrdered);
+        }
         if (preferredRoutes != null && !preferredRoutes.equals("")) {
             String[] table = preferredRoutes.split(",");
             request.setPreferredRoutes(table);
@@ -237,6 +243,12 @@ public class Planner {
         request.setModes(modes);
         request.setMinTransferTime(minTransferTime);
 
+        if (maxTransfers != null) {
+            if (maxTransfers > MAX_TRANSFERS) {
+                maxTransfers = MAX_TRANSFERS;
+            }
+            request.setMaxTransfers(maxTransfers);
+        }
         /* use request to generate trip */
         Response response = new Response(request);
         try {
