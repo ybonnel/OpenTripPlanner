@@ -59,4 +59,9 @@ public final class GraphBundle implements Serializable {
 	public InputStream getGraphResource() {
 		return GraphBundle.class.getResourceAsStream(_resource);
 	}
+
+    public File getExtraClassPath() {
+        return new File(_path, "extraClasses");
+    }
+
 }

@@ -58,10 +58,10 @@ public class StreetUtils {
         ArrayList<DirectEdge> turns = new ArrayList<DirectEdge>(endpoints.size());
         
         for (Vertex v : endpoints) {
-        	GraphVertex gv = graph.getGraphVertex(v.getLabel());
-        	if (gv == null) {
-        		continue; // the vertex could have been removed from endpoints
-        	}
+            GraphVertex gv = graph.getGraphVertex(v.getLabel());
+            if (gv == null) {
+                continue; // the vertex could have been removed from endpoints
+            }
             for (Edge e : gv.getIncoming()) {
                 PlainStreetEdge pse = (PlainStreetEdge) e;
                 boolean replaced = false;
@@ -76,9 +76,9 @@ public class StreetUtils {
                     TurnEdge turn = new TurnEdge(v1, v2);
                     if (restriction != null) {
                     	if (restriction.type == TurnRestrictionType.NO_TURN && restriction.to == e2) {
-                    		turn.setRestricted(true);
+                    	    turn.setRestrictedModes(restriction.modes);
                     	} else if (restriction.type == TurnRestrictionType.ONLY_TURN && restriction.to != e2) {
-                    		turn.setRestricted(true);
+                            turn.setRestrictedModes(restriction.modes);
                     	}
                     }
                     
@@ -189,7 +189,7 @@ public class StreetUtils {
     	}
     	
     	/* remove all tiny subgraphs */
-
+/* removed 10/27/11, since it looks like PDX is fixed.
     	for (HashSet<Vertex> island : islands) {
     		if (island.size() < 20) {
     			_log.warn("Depedestrianizing or deleting floating island at " + island.iterator().next());
@@ -198,6 +198,7 @@ public class StreetUtils {
     			}
     		} 
     	}
+*/
     }
     
     private static void depedestrianizeOrRemove(Graph graph, Vertex v) {

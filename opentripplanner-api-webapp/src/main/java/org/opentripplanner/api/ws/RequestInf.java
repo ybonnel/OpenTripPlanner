@@ -47,6 +47,8 @@ public interface RequestInf {
         public static String TRIANGLE_SLOPE_FACTOR = "triangleSlopeFactor";
         public static String TRANSFER_PENALTY = "transferPenalty";
         public static String LANGUAGE = "lang";
+        public static String MAX_TRANSFERS = "maxTransfers";
+        public static String INTERMEDAITE_PLACES_ORDERED = "intermediatePlacesOrdered";
 
 	/**
 	 * @return the from
@@ -159,5 +161,10 @@ public interface RequestInf {
 	 *         transit legs
 	 */
 	public boolean getShowIntermediateStops();
+	
+	public void setMaxTransfers(Integer maxTransfers);
+            	    
+	public Integer getMaxTransfers();
 
+	public boolean getIntermediatePlacesOrdered();
 }

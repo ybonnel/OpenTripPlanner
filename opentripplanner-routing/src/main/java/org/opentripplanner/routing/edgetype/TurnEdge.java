@@ -15,6 +15,7 @@ package org.opentripplanner.routing.edgetype;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -51,13 +52,17 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
 
     StreetVertex tov;
 
-	private List<Patch> patches;
+    private List<Patch> patches;
 
-	/**
-	 * If true, this turn is prohibited to vehicles (but permitted for walking). 
-	 */
-	private boolean restricted;
+    /**
+     * If not null, this turn is prohibited to the modes in the set.
+     */
+    private Set<TraverseMode> restrictedModes;
 
+    /** No-arg constructor used only for customization -- do not call this unless
+     * you know what you are doing */
+    public TurnEdge() {}
+    
     public TurnEdge(StreetVertex fromv, StreetVertex tov) {
         this.fromv = fromv;
         this.tov = tov;
@@ -116,18 +121,26 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
         return doTraverse(s0, s0.getOptions());
     }
 
+    private boolean turnRestricted(TraverseOptions options) {
+        if (restrictedModes == null)
+            return false;
+        else {
+            return restrictedModes.contains(options.getModes().getNonTransitMode());
+        }
+    }
+
     private State doTraverse(State s0, TraverseOptions options) {
-    	if (restricted && !options.getModes().contains(TraverseMode.WALK)) {
-    		return null;
-    	}
+        if (turnRestricted(options) && !options.getModes().contains(TraverseMode.WALK)) {
+            return null;
+        }
         if (!fromv.canTraverse(options)) {
             if (options.getModes().contains(TraverseMode.BICYCLE)) {
-            	// try walking bicycle, since you can't ride it here
+                // try walking bicycle, since you can't ride it here
                 return doTraverse(s0, options.getWalkingOptions());
             }
             return null;
         }
-        
+
         TraverseMode traverseMode = options.getModes().getNonTransitMode();
 
         EdgeNarrative en = new FixedModeEdge(this, traverseMode);
@@ -161,12 +174,12 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
             break;
         }
 
-	double time = (fromv.getEffectiveLength(traverseMode) + turnCost / 20.0) / options.speed;
+        double time = (fromv.getEffectiveLength(traverseMode) + turnCost / 20.0) / options.speed;
         double weight = fromv.computeWeight(s0, options, time);
         s1.incrementWalkDistance(fromv.getLength());
         s1.incrementTimeInSeconds((int) Math.ceil(time));
         s1.incrementWeight(weight);
-        if(s1.weHaveWalkedTooFar(options))
+        if (s1.weHaveWalkedTooFar(options))
             return null;
 
         return s1.makeState();
@@ -192,7 +205,7 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
 
     @Override
     public boolean canTraverse(TraverseOptions options) {
-    	if (restricted && !options.getModes().contains(TraverseMode.WALK)) {
+    	if (turnRestricted(options) && !options.getModes().contains(TraverseMode.WALK)) {
     		return false;
     	}
         return fromv.canTraverse(options);
@@ -230,50 +243,53 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
     public int hashCode() {
         return fromv.hashCode() * 31 + tov.hashCode();
     }
-    
-	@Override
-	public void addPatch(Patch patch) {
-		if (patches == null) {
-			patches = new ArrayList<Patch>();
-		}
-		patches.add(patch);
-	}
 
-	@Override
-	public List<Patch> getPatches() {
-		return patches;
-	}
-	
-	@Override
-	public void removePatch(Patch patch) {
-		if (patches.size() == 1) {
-			patches = null;
-		} else {
-			patches.remove(patch);
-		}
-	}
+    @Override
+    public void addPatch(Patch patch) {
+        if (patches == null) {
+            patches = new ArrayList<Patch>();
+        }
+        patches.add(patch);
+    }
 
-	@Override
-	public Set<Alert> getNotes() {
-		return fromv.getNotes();
-	}
+    @Override
+    public List<Patch> getPatches() {
+        if (patches == null) {
+            return Collections.emptyList();
+        }
+        return patches;
+    }
 
-	public void setRestricted(boolean restricted) {
-		this.restricted = restricted;
-	}
+    @Override
+    public void removePatch(Patch patch) {
+        if (patches.size() == 1) {
+            patches = null;
+        } else {
+            patches.remove(patch);
+        }
+    }
 
-	@Override
-	public boolean hasBogusName() {
-		return fromv.hasBogusName();
-	}
+    @Override
+    public Set<Alert> getNotes() {
+        return fromv.getNotes();
+    }
 
-	@Override
-	public boolean isNoThruTraffic() {
-		return fromv.isNoThruTraffic();
-	}
+    public void setRestrictedModes(Set<TraverseMode> modes) {
+        this.restrictedModes = modes;
+    }
 
-    public boolean isRestricted() {
-        return restricted;
+    public Set<TraverseMode> getRestrictedModes() {
+        return restrictedModes;
+    }
+
+    @Override
+    public boolean hasBogusName() {
+        return fromv.hasBogusName();
+    }
+
+    @Override
+    public boolean isNoThruTraffic() {
+        return fromv.isNoThruTraffic();
     }
 
     @Override
@@ -283,7 +299,7 @@ public class TurnEdge implements DirectEdge, StreetEdge, Serializable {
     
     @Override
     public double timeLowerBound(TraverseOptions options) {
-        return fromv.length / options.speed;
+        return (fromv.length + turnCost/20) / options.speed;
     }
     
 }
