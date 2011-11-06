@@ -16,6 +16,7 @@ package org.opentripplanner.routing.impl;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -149,25 +150,33 @@ public class GraphServiceImpl implements GraphService {
             ClassLoader oldLoader = getClass().getClassLoader();
             URLClassLoader loader = new URLClassLoader(url, oldLoader);
 
-            path = _bundle.getGraphPath();
+            ContractionHierarchySet chs;
 
-            if (path == null || !path.exists()) {
-                if (!_createEmptyGraphIfNotFound) {
-                    _log.error("Graph not found. Verify path to stored graph: " + path);
-                    throw new IllegalStateException("graph path not found: " + path);
+            InputStream inputStream = _bundle.getGraphResource();
+            if (inputStream != null) {
+                chs = new GraphSerializationLibrary(loader).readGraph(inputStream);
+            } else {
+
+                path = _bundle.getGraphPath();
+
+                if (path == null || !path.exists()) {
+                    if (!_createEmptyGraphIfNotFound) {
+                        _log.error("Graph not found. Verify path to stored graph: " + path);
+                        throw new IllegalStateException("graph path not found: " + path);
+                    }
+
+                    /****
+                     * Create an empty graph if not graph is found
+                     */
+                    Graph graph = new Graph();
+                    graph.setBundle(_bundle);
+                    List<TraverseOptions> modeList = Collections.emptyList();
+                    setContractionHierarchySet(new ContractionHierarchySet(graph, modeList));
+                    return;
                 }
 
-                /****
-                 * Create an empty graph if not graph is found
-                 */
-                Graph graph = new Graph();
-                graph.setBundle(_bundle);
-                List<TraverseOptions> modeList = Collections.emptyList();
-                setContractionHierarchySet(new ContractionHierarchySet(graph, modeList));
-                return;
+                chs = new GraphSerializationLibrary(loader).readGraph(path);
             }
-
-            ContractionHierarchySet chs = new GraphSerializationLibrary(loader).readGraph(path);
             setContractionHierarchySet(chs);
         } catch (Exception ex) {
             throw new IllegalStateException("error loading graph from " + path, ex);
