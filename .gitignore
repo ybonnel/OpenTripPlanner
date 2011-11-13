@@ -24,3 +24,7 @@ opentripplanner-webapp/src/main/webapp/js/otp-min.js
 .project
 .settings
 opentripplanner-api-webapp/src/main/resources/Graph.obj
+*.ipr
+*.iml
+*.iws
+
