@@ -37,6 +37,7 @@ otp.core.ComboBox = {
     m_store      : null,
     m_template   : null,
     m_lastValue  : null,
+    m_forceDirty : false,
 
     /**
      * constructor of sorts
@@ -105,10 +106,20 @@ otp.core.ComboBox = {
         {
             // and the existing form content doesn't match what was in the form previously
             retVal = (v != this.m_lastValue);
+            if(this.m_forceDirty)
+            {
+                retVal = true;
+                this.m_forceDirty = false;
+            }
         }
         return retVal;
     },
 
+    /** */
+    setDirty : function()
+    {
+        this.m_forceDirty = true;
+    },
 
     /**
      * persist Ext ComboBox's text field content into a Cookie
@@ -185,10 +196,18 @@ otp.core.ComboBox = {
     {
     },
 
+    /** */
     clear : function()
     {
         this.m_form.collapse();
         this.m_form.reset();
+    },
+
+    /** */
+    blur : function()
+    {
+        if(this.isDirty())
+            this.m_form.triggerBlur();
     },
 
     collapse : function()
